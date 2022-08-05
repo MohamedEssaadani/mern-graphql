@@ -3,10 +3,12 @@ const mongoose = require("mongoose");
 const { graphqlHTTP } = require("express-graphql");
 const schema = require("./schema/schema");
 
+// env file
+require("dotenv").config();
+
 const app = express();
 
-const DB_URL =
-  "";
+const DB_URL = process.env.DB_URL;
 
 // connect to db
 mongoose
