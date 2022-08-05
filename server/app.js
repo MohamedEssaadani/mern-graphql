@@ -2,11 +2,14 @@ const express = require("express");
 const mongoose = require("mongoose");
 const { graphqlHTTP } = require("express-graphql");
 const schema = require("./schema/schema");
-
+const cors = require("cors");
 // env file
 require("dotenv").config();
 
 const app = express();
+
+// cros origin requests
+app.use(cors());
 
 const DB_URL = process.env.DB_URL;
 
