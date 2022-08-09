@@ -1,10 +1,13 @@
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import React, { useState } from "react";
-import { GET_AUTHORS } from "../queries/queries";
+import { ADD_BOOK, GET_AUTHORS } from "../queries/queries";
 
 function AddBook() {
   // get authors
   const { loading, error, data } = useQuery(GET_AUTHORS);
+
+  // for addBook
+  const [addBook, {}] = useMutation(ADD_BOOK);
 
   const [book, setBook] = useState({
     name: "",
@@ -30,6 +33,13 @@ function AddBook() {
   const submit = (e) => {
     e.preventDefault();
     console.log(book);
+    addBook({
+      variables: {
+        name: book.name,
+        genre: book.genre,
+        authorId: book.authorId,
+      },
+    });
   };
 
   return (
@@ -69,7 +79,7 @@ function AddBook() {
           {displayAuthors()}
         </select>
       </div>
-      <button>Add</button>
+      <button className="add-btn">Add</button>
     </form>
   );
 }
