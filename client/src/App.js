@@ -1,17 +1,8 @@
 import BookList from "./components/BookList";
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { useEffect } from "react";
-
-// create query
-const GET_BOOKS = gql`
-  {
-    books {
-      name
-      genre
-      id
-    }
-  }
-`;
+import { GET_BOOKS } from "./queries/queries";
+import AddBook from "./components/AddBook";
 
 function App() {
   // use getbooks query
@@ -27,8 +18,11 @@ function App() {
 
   return (
     <div className="main">
-      <h1>Let's consume graphql api!</h1>
-      <BookList books={data.books} />
+      <h1 className="title">Books List</h1>
+      <div className="books-list">
+        <BookList books={data.books} />
+        <AddBook />
+      </div>
     </div>
   );
 }
