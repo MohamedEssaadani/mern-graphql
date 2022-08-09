@@ -3,6 +3,7 @@ import { useQuery } from "@apollo/client";
 import { useEffect } from "react";
 import { GET_BOOKS } from "./queries/queries";
 import AddBook from "./components/AddBook";
+import BookDetail from "./components/BookDetail";
 
 function App() {
   // use getbooks query

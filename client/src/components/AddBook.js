@@ -1,13 +1,15 @@
 import { useMutation, useQuery } from "@apollo/client";
 import React, { useState } from "react";
-import { ADD_BOOK, GET_AUTHORS } from "../queries/queries";
+import { ADD_BOOK, GET_AUTHORS, GET_BOOKS } from "../queries/queries";
 
 function AddBook() {
   // get authors
   const { loading, error, data } = useQuery(GET_AUTHORS);
 
   // for addBook
-  const [addBook, {}] = useMutation(ADD_BOOK);
+  const [addBook, {}] = useMutation(ADD_BOOK, {
+    refetchQueries: [{ query: GET_BOOKS }],
+  });
 
   const [book, setBook] = useState({
     name: "",
@@ -32,13 +34,19 @@ function AddBook() {
 
   const submit = (e) => {
     e.preventDefault();
-    console.log(book);
+
     addBook({
       variables: {
         name: book.name,
         genre: book.genre,
         authorId: book.authorId,
       },
+    });
+
+    setBook({
+      name: "",
+      genre: "",
+      authorId: "",
     });
   };
 
@@ -48,6 +56,7 @@ function AddBook() {
         <label>Book name:</label>
         <input
           type="text"
+          value={book.name}
           onChange={(e) =>
             setBook((book) => {
               return { ...book, name: e.target.value };
@@ -59,6 +68,7 @@ function AddBook() {
         <label>Genre:</label>
         <input
           type="text"
+          value={book.genre}
           onChange={(e) =>
             setBook((book) => {
               return { ...book, genre: e.target.value };
@@ -69,6 +79,7 @@ function AddBook() {
       <div className="field">
         <label>Author:</label>
         <select
+          value={book.authorId}
           onChange={(e) =>
             setBook((book) => {
               return { ...book, authorId: e.target.value };
@@ -79,7 +90,7 @@ function AddBook() {
           {displayAuthors()}
         </select>
       </div>
-      <button className="add-btn">Add</button>
+      <button className="add-btn">+</button>
     </form>
   );
 }
